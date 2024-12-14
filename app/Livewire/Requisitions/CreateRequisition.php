@@ -10,6 +10,10 @@ use Livewire\Attributes\Layout;
 #[Layout('layouts.app')]
 class CreateRequisition extends Component
 {
+    public $showNotification = false;
+    public $notificationType = '';
+    public $notificationMessage = '';
+    
     public $folio;
     public $article_id;
     public $entry_time;
@@ -35,10 +39,14 @@ class CreateRequisition extends Component
             $validated = $this->validate();
             $validated['user_id'] = auth()->id();
             Requisition::create($validated);
-            session()->flash('message', 'Requisición creada exitosamente.');
+            $this->dispatch('open-modal', 'notification-modal');
+            $this->notificationType = 'success';
+            $this->notificationMessage = 'Requisición creada exitosamente.';
             $this->reset(['folio', 'article_id', 'entry_time', 'exit_time', 'notes']);
         }catch (\Exception $e) {
-            session()->flash('error', 'Error al crear la requisición: ' . $e->getMessage());
+            $this->dispatch('open-modal', 'notification-modal');
+            $this->notificationType = 'error';
+            $this->notificationMessage = 'Error al crear la requisición: ' . $e->getMessage();
         }
     }
 

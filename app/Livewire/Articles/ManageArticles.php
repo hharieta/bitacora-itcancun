@@ -12,6 +12,10 @@ class ManageArticles extends Component
 {
     use WithPagination;
 
+    public $showNotification = false;
+    public $notificationType = '';
+    public $notificationMessage = '';
+
     public $name;
     public $description;
     public $price;
@@ -44,10 +48,14 @@ class ManageArticles extends Component
                 'department_head' => $this->department_head,
             ]);
 
-            session()->flash('message', 'Artículo creado exitosamente.');
-            $this->reset();
+            $this->dispatch('open-modal', 'notification-modal');
+            $this->notificationType = 'success';
+            $this->notificationMessage = 'Artículo creado exitosamente.';
+            $this->reset(['name', 'description', 'price', 'partition', 'department', 'department_head']);
         } catch (\Exception $e) {
-            session()->flash('error', 'Error al crear el artículo: ' . $e->getMessage());
+            $this->dispatch('open-modal', 'notification-modal');
+            $this->notificationType = 'error';
+            $this->notificationMessage = 'Error al crear el artículo: ' . $e->getMessage();
         }
     }
 
@@ -71,11 +79,15 @@ class ManageArticles extends Component
             $article = Article::findOrFail($this->articleId);
             $article->update($validated);
             
-            session()->flash('message', 'Artículo actualizado exitosamente.');
+            $this->dispatch('open-modal', 'notification-modal');
+            $this->notificationType = 'success';
+            $this->notificationMessage = 'Artículo actualizado exitosamente.';
             $this->reset(['name', 'description', 'price', 'partition', 'department', 'department_head', 'articleId']);
             $this->editing = false;
         } catch (\Exception $e) {
-            session()->flash('error', 'Error al actualizar el artículo: ' . $e->getMessage());
+            $this->dispatch('open-modal', 'notification-modal');
+            $this->notificationType = 'error';
+            $this->notificationMessage = 'Error al actualizar el artículo: ' . $e->getMessage();
         }
     }
 
