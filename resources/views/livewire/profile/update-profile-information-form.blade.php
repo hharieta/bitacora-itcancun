@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Validation\Rule;
@@ -10,6 +11,7 @@ new class extends Component
 {
     public string $name = '';
     public string $email = '';
+    public string $role = '';
 
     /**
      * Mount the component.
@@ -18,6 +20,7 @@ new class extends Component
     {
         $this->name = Auth::user()->name;
         $this->email = Auth::user()->email;
+        $this->role = Auth::user()->roles()->first()?->name ?? 'No role found';
     }
 
     /**
@@ -102,6 +105,16 @@ new class extends Component
                     @endif
                 </div>
             @endif
+        </div>
+        <div>
+            <x-input-label for="role" :value="__('Role')" />
+            <x-text-input 
+                id="role" 
+                type="text" 
+                class="mt-1 block w-full" 
+                :value="$role"
+                disabled
+            />
         </div>
 
         <div class="flex items-center gap-4">
