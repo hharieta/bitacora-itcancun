@@ -18,6 +18,8 @@ class ManageArticles extends Component
     public $partition;
     public $department;
     public $department_head;
+    public $articleId;
+    public $editing = false;
 
     protected $rules = [
         'name' => 'required|string|max:255',
@@ -47,6 +49,40 @@ class ManageArticles extends Component
         } catch (\Exception $e) {
             session()->flash('error', 'Error al crear el artículo: ' . $e->getMessage());
         }
+    }
+
+    public function edit($id)
+    {
+        $article = Article::findOrFail($id);
+        $this->articleId = $id;
+        $this->name = $article->name;
+        $this->description = $article->description;
+        $this->price = $article->price;
+        $this->partition = $article->partition;
+        $this->department = $article->department;
+        $this->department_head = $article->department_head;
+        $this->editing = true;
+    }
+
+    public function update()
+    {
+        try {
+            $validated = $this->validate();
+            $article = Article::findOrFail($this->articleId);
+            $article->update($validated);
+            
+            session()->flash('message', 'Artículo actualizado exitosamente.');
+            $this->reset(['name', 'description', 'price', 'partition', 'department', 'department_head', 'articleId']);
+            $this->editing = false;
+        } catch (\Exception $e) {
+            session()->flash('error', 'Error al actualizar el artículo: ' . $e->getMessage());
+        }
+    }
+
+    public function cancelEdit()
+    {
+        $this->reset();
+        $this->editing = false;
     }
 
     public function render()

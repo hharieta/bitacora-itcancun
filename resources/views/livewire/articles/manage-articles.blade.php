@@ -19,7 +19,7 @@
                 {{ __('Crear Nuevo Artículo') }}
             </h2>
 
-            <form wire:submit="save" class="space-y-4">
+            <form wire:submit.prevent="{{ $editing ? 'update' : 'save' }}" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <x-input-label for="name" :value="__('Nombre')" />
@@ -61,10 +61,23 @@
                     <x-input-error :messages="$errors->get('department_head')" class="mt-2" />
                 </div>
 
-                <div class="flex justify-end">
-                    <x-primary-button type="submit">
-                        {{ __('Guardar Artículo') }}
-                    </x-primary-button>
+                <div class="flex justify-end gap-4">
+                    @if($editing)
+                        <div >
+                            <x-secondary-button type="button" wire:click="cancelEdit">
+                                {{ __('Cancelar') }}
+                            </x-secondary-button>
+                        </div>
+                        <div>
+                            <x-primary-button type="submit">
+                                {{ __('Actualizar Artículo') }}
+                            </x-primary-button>
+                        </div>
+                    @else
+                        <x-primary-button type="submit">
+                            {{ __('Guardar Artículo') }}
+                        </x-primary-button>
+                    @endif
                 </div>
             </form>
         </div>
