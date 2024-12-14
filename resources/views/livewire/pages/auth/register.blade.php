@@ -83,12 +83,12 @@ new #[Layout('layouts.guest')] class extends Component
 
         <div class="mt-4">
             <x-input-label for="role" :value="__('Role')" />
-            <select wire:model="role" id="role" class="block mt-1 w-full" type="text" name="role" required>
+            <x-forms.select wire:model="role" id="role" class="block mt-1 w-full" type="text" name="role" required>
                 <option value="">Select Role</option>
                 @foreach (Role::where('name', '!=', 'admin')->get() as $role)
                     <option value="{{ $role->name }}">{{ ucfirst($role->name) }}</option>
                 @endforeach
-            </select>
+            </x-forms.select>
             <x-input-error :messages="$errors->get('role')" class="mt-2" />
         </div>
 
