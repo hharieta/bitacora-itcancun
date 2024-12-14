@@ -21,6 +21,11 @@ class Requisition extends Model
         'exit_time' => 'datetime',
     ];
 
+    public const STATUS = [
+        'inactive' => 'Inactivo',
+        'active' => 'Activo',
+    ];
+
     public function article()
     {
         return $this->belongsTo(Article::class);

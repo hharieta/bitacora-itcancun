@@ -34,10 +34,16 @@ new class extends Component
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     <x-nav-link :href="route('articles')" :active="request()->routeIs('articles')">
+                        {{ __('Nuevo Artículo') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('articles.list')" :active="request()->routeIs('articles.list')">
                         {{ __('Artículos') }}
                     </x-nav-link>
                     <x-nav-link :href="route('requisitions.create')" :active="request()->routeIs('requisitions.create')">
                         {{ __('Nueva Requisición') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('requisitions.index')" :active="request()->routeIs('requisitions.index')">
+                        {{ __('Requisiciones') }}
                     </x-nav-link>
                 </div>
             </div>
