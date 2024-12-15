@@ -13,10 +13,35 @@ class ListRequisitions extends Component
 {
     use WithPagination;
 
+    public $search = '';
+    public $filterStatus = '';
+    public $dateType = 'entry'; // 'entry' o 'exit'
+    public $searchDate = '';
+
     public $editingRequisitionId = null;
     public $editingStatus = '';
     public $editingNotes = '';
     public $editingExitTime = '';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterStatus()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearchDate()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingDateType()
+    {
+        $this->resetPage();
+    }
 
     public function editStatus($requisitionId)
     {
@@ -49,7 +74,22 @@ class ListRequisitions extends Component
     public function render()
     {
         return view('livewire.requisitions.list-requisitions', [
-            'requisitions' => Requisition::with(['user', 'article'])->latest()->paginate(20),
+            'requisitions' => Requisition::with(['user', 'article'])
+                ->when($this->search, function($query) {
+                    $query->where('folio', 'like', '%' . $this->search . '%')
+                        ->orWhereHas('article', function($subQuery) {
+                            $subQuery->where('name', 'like', '%' . $this->search . '%');
+                        });
+                })
+                ->when($this->filterStatus !== '', function($query) {
+                    $query->where('status', $this->filterStatus);
+                })
+                ->when($this->searchDate, function($query) {
+                    $dateField = $this->dateType === 'entry' ? 'entry_time' : 'exit_time';
+                    $query->whereDate($dateField, $this->searchDate);
+                })
+                ->latest()
+                ->paginate(20),
             'statusOptions' => Requisition::STATUS
         ]);
     }

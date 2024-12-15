@@ -1,5 +1,30 @@
 {{-- resources/views/livewire/articles/list-articles.blade.php --}}
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="mb-4 flex items-center space-x-4">
+        <div class="w-3/4 md:w-full">
+            <div class="flex">
+                <div class="flex-1 relative">
+                    <input 
+                        wire:model.live="search" 
+                        type="text" 
+                        class="w-full rounded-l-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm"
+                        placeholder="Buscar por nombre o descripción..."
+                    />
+                </div>
+                <div class="relative">
+                    <select 
+                        wire:model.live="filterDepartment"
+                        class="rounded-r-md border-l-0 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm"
+                    >
+                        <option value="">Todos</option>
+                        @foreach($departments as $department)
+                            <option value="{{ $department }}">{{ $department }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
             {{ __('Lista de Artículos') }}

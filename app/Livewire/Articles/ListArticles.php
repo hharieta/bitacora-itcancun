@@ -10,6 +10,9 @@ class ListArticles extends Component
 {
     use WithPagination;
 
+    public $search = '';
+    public $filterDepartment = '';
+
     public $editingArticleId = null;
     public $editingName = '';
     public $editingDescription = '';
@@ -17,6 +20,16 @@ class ListArticles extends Component
     public $editingPartition = '';
     public $editingDepartment = '';
     public $editingDepartmentHead = '';
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterDepartment()
+    {
+        $this->resetPage();
+    }
 
     public function editArticle($articleId)
     {
@@ -71,7 +84,22 @@ class ListArticles extends Component
     public function render()
     {
         return view('livewire.articles.list-articles', [
-            'articles' => Article::latest()->paginate(20)
+            'articles' => Article::query()
+                ->when($this->search, function($query) {
+                    $query->where(function($q) {
+                        $q->where('name', 'like', '%' . $this->search . '%')
+                          ->orWhere('description', 'like', '%' . $this->search . '%');
+                    });
+                })
+                ->when($this->filterDepartment !== '', function($query) {
+                    $query->where('department', $this->filterDepartment);
+                })
+                ->latest()
+                ->paginate(20),
+            'departments' => Article::select('department')
+                ->distinct()
+                ->orderBy('department')
+                ->pluck('department')
         ]);
     }
 }

@@ -1,5 +1,46 @@
 {{-- resources/views/livewire/requisitions/list-requisitions.blade.php --}}
 <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="mb-4 flex items-center space-x-4">
+        <div class="w-3/4 md:w-full">
+            <div class="flex">
+                <div class="flex-1 relative">
+                    <input 
+                        wire:model.live="search" 
+                        type="text" 
+                        class="w-full rounded-l-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm"
+                        placeholder="Buscar por folio o artículo..."
+                    />
+                </div>
+                <div class="relative">
+                    <select 
+                        wire:model.live="filterStatus"
+                        class="border-l-0 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm"
+                    >
+                        <option value="">Todos los estados</option>
+                        @foreach($statusOptions as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="relative">
+                    <select 
+                        wire:model.live="dateType"
+                        class="border-l-0 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm"
+                    >
+                        <option value="entry">Fecha Entrada</option>
+                        <option value="exit">Fecha Salida</option>
+                    </select>
+                </div>
+                <div class="relative">
+                    <input 
+                        wire:model.live="searchDate" 
+                        type="date" 
+                        class="rounded-r-md border-l-0 border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm"
+                    />
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-4">
             {{ __('Requisiciones') }}
