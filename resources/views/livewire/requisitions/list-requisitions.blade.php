@@ -88,7 +88,14 @@
                                         rows="4"
                                     ></textarea>
                                 @else
-                                    {{ $requisition->notes }}
+                                <div class="group relative inline-block">
+                                        <span class="cursor-help">
+                                            {{ Str::limit($requisition->notes, 20, '...') }}
+                                        </span>
+                                        <div class="hidden group-hover:block absolute z-10 w-64 p-2 mt-2 text-sm bg-gray-600 text-white rounded-lg shadow-lg">
+                                        {{ $requisition->notes }}
+                                        </div>
+                                    </div>
                                 @endif
                             </td>
                             <td class="flex px-6 py-4 whitespace-nowrap">
@@ -108,27 +115,12 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if ($editingRequisitionId === $requisition->id)
-                                    <button 
-                                        wire:click="updateRequisition({{ $requisition->id }})"
-                                        class="text-indigo-600 hover:text-indigo-900 mr-3"
-                                    >
-                                        Guardar
-                                    </button>
-                                    <button 
-                                        wire:click="$set('editingRequisitionId', null)"
-                                        class="text-gray-600 hover:text-gray-900"
-                                    >
-                                        Cancelar
-                                    </button>
-                                @else
-                                    <button 
-                                        wire:click="editRequisition({{ $requisition->id }})"
-                                        class="text-indigo-600 hover:text-indigo-900"
-                                    >
-                                        Editar
-                                    </button>
-                                @endif
+                                <a 
+                                    href="{{ route('requisitions.edit', $requisition->id) }}"
+                                    class="text-indigo-600 hover:text-indigo-900"
+                                >
+                                    Editar
+                                </a>
                             </td>
                         </tr>
                     @endforeach

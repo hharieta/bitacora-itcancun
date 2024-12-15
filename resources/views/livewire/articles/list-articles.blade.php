@@ -55,9 +55,20 @@
                             </td>
                             <td class="px-6 py-4">
                                 @if($editingArticleId === $article->id)
-                                    <textarea wire:model="editingDescription" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" rows="2"></textarea>
+                                    <textarea 
+                                        wire:model="editingDescription" 
+                                        class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" 
+                                        rows="2"
+                                    ></textarea>
                                 @else
-                                    {{ $article->description }}
+                                    <div class="group relative inline-block">
+                                        <span class="cursor-help">
+                                            {{ Str::limit($article->description, 50, '...') }}
+                                        </span>
+                                        <div class="hidden group-hover:block absolute z-10 w-64 p-2 mt-2 text-sm bg-gray-600 text-white rounded-lg shadow-lg">
+                                            {{ $article->description }}
+                                        </div>
+                                    </div>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -89,27 +100,12 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($editingArticleId === $article->id)
-                                    <button 
-                                        wire:click="updateArticle({{ $article->id }})"
-                                        class="text-indigo-600 hover:text-indigo-900 mr-3"
-                                    >
-                                        Guardar
-                                    </button>
-                                    <button 
-                                        wire:click="cancelEdit"
-                                        class="text-gray-600 hover:text-gray-900"
-                                    >
-                                        Cancelar
-                                    </button>
-                                @else
-                                    <button 
-                                        wire:click="editArticle({{ $article->id }})"
-                                        class="text-indigo-600 hover:text-indigo-900"
-                                    >
-                                        Editar
-                                    </button>
-                                @endif
+                                <a 
+                                    href="{{ route('articles.edit', $article) }}"
+                                    class="text-indigo-600 hover:text-indigo-900"
+                                >
+                                    Editar
+                                </a>
                             </td>
                         </tr>
                     @endforeach

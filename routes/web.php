@@ -24,4 +24,13 @@ Route::get('/requisitions', App\Livewire\Requisitions\ListRequisitions::class)
 Route::get('/articles/list', App\Livewire\Articles\ListArticles::class)
 ->middleware(['auth'])
 ->name('articles.list');
+
+Route::get('/requisitions/{requisition}/edit', App\Livewire\Requisitions\EditRequisition::class)
+    ->name('requisitions.edit')
+    ->middleware(['auth']);
+
+Route::get('/articles/{article}/edit', App\Livewire\Articles\EditArticle::class)
+->name('articles.edit')
+->middleware(['auth']);
+
 require __DIR__.'/auth.php';
