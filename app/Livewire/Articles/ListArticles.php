@@ -4,10 +4,12 @@ namespace App\Livewire\Articles;
 use App\Models\Article;
 use Livewire\Component;
 use Livewire\Attributes\Layout;
-
+use Livewire\WithPagination;
 #[Layout('layouts.app')]
 class ListArticles extends Component
 {
+    use WithPagination;
+
     public $editingArticleId = null;
     public $editingName = '';
     public $editingDescription = '';
@@ -69,7 +71,7 @@ class ListArticles extends Component
     public function render()
     {
         return view('livewire.articles.list-articles', [
-            'articles' => Article::latest()->get()
+            'articles' => Article::latest()->paginate(20)
         ]);
     }
 }
