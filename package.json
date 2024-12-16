@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@alpinejs/persist": "^3.14.7",
-        "alpinejs": "^3.14.7"
+        "alpinejs": "^3.14.7",
+        "chart.js": "^4.4.7"
     }
 }

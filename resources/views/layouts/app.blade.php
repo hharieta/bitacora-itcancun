@@ -15,4 +15,5 @@
             {{ $slot }}
         </main>
     </div>
+    @stack('scripts')
 </x-layout.base>

@@ -33,4 +33,10 @@ Route::get('/articles/{article}/edit', App\Livewire\Articles\EditArticle::class)
 ->name('articles.edit')
 ->middleware(['auth']);
 
+
+
+Route::get('dashboard-charts', App\Livewire\Dashboard\DashboardCharts::class)
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard-charts');
+
 require __DIR__.'/auth.php';
